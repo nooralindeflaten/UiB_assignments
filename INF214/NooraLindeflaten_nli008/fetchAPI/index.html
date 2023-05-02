@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+    <title>Newton-Api request</title>
+</head>
+<body>
+    <form id="newtoncalc-form">
+        <div class="form-group">
+            <input
+                type="text"
+                name="expression"
+                is="expression"
+                placeholder="Type Expression"
+                autocomplete="false"
+                spellcheck="false"
+            />
+            <input
+                type="submit"
+                value="Calculate"
+            />
+            <input
+                type="button"
+                value="Clear"
+                onclick="calculatorForm.reset()"
+            />
+        </div>
+    </form>
+    <div class="result-container">
+        <p id="result-expression" class="border-bottom">Expression:</p>
+        <p id="result" class="border-bottom">Result:</p>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

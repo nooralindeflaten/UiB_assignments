@@ -1,0 +1,6 @@
+
+objdump grep printf
+
+first one: 
+jmpq *0x2fd2 % rip 4028
+0x1056
