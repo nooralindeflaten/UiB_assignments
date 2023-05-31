@@ -1,0 +1,37 @@
+
+
+HMAC
+
+My version:
+My code bases it's operation on bits. So my input and output is converted
+when needed. 
+
+The main rules consists of the HMAC-SHA256 structure is:
+1. the secret key shared between the sender and reciever
+2. The key is padded with the padding constants used for the sha-256
+    iPad and Opad. The most usual being 0x36 and 0x5c. This is xored with the key
+3. The message is then hashed with the key ipad. This inner hash
+4. Is then hashed with the outer opad. Producing the final HMAC
+
+Usually we would hash the key if it's longer than the blocksize, but the task
+states that it does not need to so I've not implementet this. Generally though
+the key is padded with zeros if it's too short, and hashed if it's too long.
+
+Key:
+Key does not need extending
+whole message is hashed not blocks
+bytes to bits
+
+
+CBC padding:
+
+encryption padding is done by checking the amount of bytes needed to
+have a plaintext that can evenly be divided into blocks of 16. this means
+that if n bytes need to be added. We add n bytes of value n.
+
+decryption is done by checking if the last two bytes of the decrypted text
+is two bytes with value 16. If they are we remove two blocks
+from the final text, but otherwise we check the value of the last
+byte. This will tell us how many bytes we need to remove. 
+
+

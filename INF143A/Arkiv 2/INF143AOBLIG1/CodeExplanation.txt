@@ -1,0 +1,168 @@
+
+
+FILE: "Task1.py"
+OUTPUT: "lfsr.out"
+
+    I've already included the information needed in the main function.
+    In this task we are not provided with any input file so i've constructed the form myself.
+
+    INPUT:
+        The input is gathered by initializing the bits as a list of zero's, and one's.
+        The list is then used as the parameter to the function "lfone" starting at line 33.
+
+    FUNCTION "LFONE":
+        The function takes a parameter "state"
+        It has two empty lists "outs"(line 35) and "States"(line 37).
+        The for loop is used to specify how many bits of output we want, and
+        producing the states that provide them.
+
+        First the state is appended to the list of states, and the last bit (outputbit)
+        is appended to the output list. 
+        The next state is then updated using the LSFR function which uses the representation of
+        the reccurence relation formula for the state of a given time.
+
+        then the function returns the output variables as a string, and then written to the output file.
+
+    RECUIRED ACTIONS:
+        An initialized list of the input bits.
+        A variable to store the output from the lfone function where the list is given as input.
+        Open an input file in the "a" mode.
+        write the output variable to the file, and then close.
+
+
+
+
+FILE: "Task2.py"
+OUTPUT: "lookuptabletask3."
+    INPUT:
+        the sequence of input the task description asked for was all the different combinations
+        of 0's and 1's. In the function "createX()"(Line 37) this input is automaticly generated and returned as a list.
+        Then the third input needed is the polynomial from the task represented as a list
+        p(x) = x^6 + x + 1
+        as: 100001
+    
+    XOR (line 5):
+        The xor function needs two lists and then for each element of the lists are added together and modulo 2.
+
+    MULTIPLY (line 21):
+        The function used for bit multiplication by taking two bit lists and the polynomial,
+        and returns the result.
+    
+    PREFORM (line 43):
+        Again this function takes the same input as MULTIPLY so they can use that function to
+        preform actions.
+        The code is a representation of the function provided in the task description:
+            f(x,y) = x^3 + (x+k)^3 + k
+        (The comments in the function explains the actions)
+    
+    LOOKUPTABLE (line 55):
+        The only input needed is the polynomial. The x and y variables are generated here.
+        Then for each combination of x and y sent to the function.
+        Here you can find the file the output is provided. (line 61)
+    
+    RECUIRED ACTIONS:
+        The polynomial as a list of 0's and 1's. in the main function.
+        Uncomment LINE 68 if you want to preview the output in the terminal,
+        and comment out LINE 69, 67 AND 61 if you don't want to produce the output 
+        untill you've reviewed it. 
+
+        If there is an issue when running the code, make sure itertools has been imported, and
+        the length of the polynomial matches the input number in LINE 38
+
+        Make sure you have the right path to the output file in LINE 61, and check if the file is empty,
+        since the mode of the file is set as "a" so the new data will be appended as new content at the end of the file.
+        I have run this code a few times, so please check if the code now produces the correct output. :)
+
+    
+
+
+FILE: "task3.py"
+INPUTS USED: 
+    "cipher_in1.txt"
+    "cipher_in2.txt"
+    "cipher_out1.txt"
+    "cipher_out2.txt"
+    "cipher_key.txt"
+
+
+    INPUT FILE "cipher_key.txt":
+        This file is used in the readkeys function (LINE 23).
+        The task states that the 32 bit key contains all the 8 bit keys.
+        Since this task has provided the length of the keys i have used 
+        specific numbers instead of a function that would accept any file
+        or key length an number. 
+
+        However this function could provide a loop related to the input round if desired.
+        This function does read the file everytime it's called and i could have stored
+        the file input outside of the function. 
+
+    INPUT FILE "cipher_in1.txt":
+        The input text for encryption is retrieved in the preform function (LINE 88).
+        This file is then represented as a list of 1's and 0's to match the input formats
+        for the functions.
+
+        The list is then split into the L, and R blocks.
+        In the for loop we go through the 4 rounds of encryption. 
+
+    
+    ENCRYPTION:
+        - Get keys (LINE 23) input: the round of encryption/decryption where the key is used.
+                            output: the round key read from the key file.
+        - Shift (LINE 41) input: 
+                                parameter n -> the number of bits to Shift
+                                parameter L -> the sequence which is shifted
+                        output: The new list that has been shifted.
+        - xor (LINE 46) input: Two lists of the same length.
+                        output: The result of the two lists xored together
+        - and (LINE 54) input: Two lists of the same length.
+                        output: The result after using the logical AND on the two lists.
+        -Round (LINE 69) input: Two blocks of the rounds input, as well as the matching round key.
+                        output: The next round input produced by a round of encryption.
+        - Preform (LINE 88) input: none.
+                            output: The encryption of an input text read from a file after four rounds.
+        
+    DECRYPTION:
+
+        - bruteforce() (LINE 108) input: none
+                                    output: a two dimentional list of every possible 8 bit combination.
+        - decryption(CL,CR,KEY) (LINE 116):
+                input: Left block of the cipher text, Right block of the cipher text, and the round key.
+                output: The cipher text that will be used for the next round of decryption.
+
+        - PreformD() (LINE 136):
+                input: None. 
+                output: The plaintext retrieved after 4 rounds of decryption read internally from a given
+                text file. 
+    
+    RECUIRED ACTIONS:
+        run "preform()" in main to get the encryption.
+        run "preformD()" for decryption. 
+
+        Input files are read inside the functions.
+        (LINE 24) needs to include the path to the key file. 
+        (LINE 90) needs to include the path to the input file you want to encrypt. 
+        (LINE 137) needs to include the path to the file you want to decrypt. 
+
+EXPLANATION OF DECRYPTION PROCESS:
+    The decryption is preformed as a reversed encryption. 
+    We know that the Left part of the cipher text is the result of the previous 
+    encryption of the unknown Right block. 
+    The Right part of the Cipher text is just the last L box. 
+
+    We can now use every possible version R could be to check which of them gives
+    the same output as the Left part of the cipher text.
+
+    Since we know the previous left side:
+        that means we can just run the round function using the key for the round,
+        the known Left, and try every possible value of R untill we get the right one. 
+        This is done in the decryption function LINE 116.
+
+    Then we just continue this process 4 more times, and remember to use the right keys.
+    this is done using a count which decrements after each round. LINE 143
+
+
+NOTES:
+    I should probably have called the input files from outside of the function, but 
+    i didn't want to mess with my solution so i just kept it as it was. I haven't used
+    my own file for the output since the output files already excist, the input1 and output1
+    match after decryption and decryption, and so does the other two. 

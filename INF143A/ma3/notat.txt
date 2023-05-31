@@ -1,0 +1,16 @@
+
+
+To implement the HMAC using SHA-256, we need to follow the HMAC construction described 
+in the lecture or in Applied Cryptography by Paar and Pelzl. The HMAC construction takes a hash 
+function (in this case SHA-256) and a secret key, and produces a MAC.
+
+This implementation takes a file containing the message to be authenticated, 
+a file containing the secret key, and an output file where the MAC will be written. 
+It then reads in the message and key, computes the HMAC using the hmac function, and writes
+the resulting MAC to the output file.
+
+To run this script, you would use the command python hmac_1.py 
+file key output_file. For example, if your message is in a file called message.txt, 
+your key is in a file called key.txt, and you want to write the MAC to an output file, 
+you would use the command python hmac.py message.txt key.txt mac.txt
+

@@ -1,0 +1,63 @@
+import sys
+
+
+#Convert a binary string to an integer. 
+def bin_to_int(B):
+    x = int(B,2)
+    return x
+
+
+#Converting the table to a list of the output values represented as integers. 
+def convert(table):
+    tb = []
+    for i in table:
+        b = [bin_to_int(x) for x in i]
+        tb.append(b[1])
+    return tb
+
+
+#Calculating the differential uniformity
+def uniformity(function_table):
+    # The f list represents output values. table[x] -> f(x).
+    f = convert(function_table)
+    # the differential uniformity 
+    DU = 0
+    # different outputs
+    n = len(f)
+ 
+    for a in range(n):
+        if a == 0:
+            continue
+        for b in range(n):
+            diff_count = 0
+            #loop through all pairs. 
+            for x in range(n):
+                fx = f[x]
+                fx_plus_a = f[x ^ a]
+                if fx ^ fx_plus_a == b:
+                    diff_count += 1
+            # get the highest count of differential unifyormities.
+            DU = max(DU, diff_count)
+    return DU
+
+
+# Reading the file as a list of lists with each pair without the arrows and whitespaces. 
+def read_file(input_file):
+    f = open(input_file, "r")
+    data = f.readlines()
+    d = [line.strip().split('->') for line in data]
+    return d
+
+def main():
+    g = ''
+    if len(sys.argv) != 2:
+        print('Usage: ', sys.argv[0], "DU LOOKUP TABLE")
+    else:
+        g = sys.argv[1]
+
+    # reading input file
+    table = read_file(g)
+    #printing the output. 
+    print(uniformity(table))
+
+main()

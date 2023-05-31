@@ -1,0 +1,64 @@
+
+
+TASK 1:
+
+This is commented good so it's easy to see what's going on.
+I used the same 32 bit key for every block. When i was in the group
+session that's what i was told. He was also unsure when i asked if the
+same key would be used each time, and looking at the sample data i'm assuming this is correct
+
+enc, and dec don't contain the same functions. enc has a encryptionCBC function, and
+dec has an decryptionCBC function. 
+
+Ignore enc2 if you want it's just an alternative way of encryption
+and decryption. I didn't want to delete it :) 
+
+
+TASK 2:
+
+    When i was in the group session i was told that we were not going to be given any input.
+    My code is based on the assumtion that we are choosing our own public and private
+    key, and then sign the message we get. 
+    I added a verification function
+
+    My implementation of input and output:
+
+    parameter file:
+    I choose my own prime number, and generator and calculate d.
+    Then i write these numbers to the file. 
+
+    private key file:
+    Here i'm also choosing my private key, and recording it in the file. 
+
+    message:
+    I'm assuming we get the message already written in the file.
+
+    output:
+    This is easy i just sign the message and write it to the file
+    as explained. 
+
+    So. If the case is that i get the parameters in the input files. 
+    I would read the lines using readlines function. and run them through
+    the code like i have. 
+
+    Now since i was told that we are not given any input i'm going to include
+    some theorems about Elgamal. 
+
+    The prime number would be choosen using the random function
+    in python and checking if the number is a prime. 
+    Generators would be an integer of the multiplicative group of
+    integers modulo p. This would take very a long time if the number
+    p is a big one so i'm just guessing this is not what you want. 
+
+    However if it is:
+    - creating a function checking that an integer g is a generator for p.
+        checking if the number q is in all the factors of p, and then:
+        pow(g,(p-1)//q,p) == 1
+        g is a number between 2, p-1
+    
+    I'm not going to spend a lot of time explaining the key generating, because i don't think
+    you want me to make it complicated, and use different types of key generating. 
+
+
+TASK 3:
+    Pretty straight forward, commented well. 

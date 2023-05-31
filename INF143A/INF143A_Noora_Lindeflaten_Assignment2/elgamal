@@ -1,0 +1,81 @@
+import math
+import random
+import sys
+
+#Randomizing an apropriate ephermal key. 
+def ephermal_key(p):
+    while True:
+        eph_key = random.randint(1,p-2)
+        if math.gcd(eph_key, p-1) == 1:
+            return eph_key
+            
+
+# Signing a message m -> (m(r,s))
+def signMessage(p,g,d,m):
+    # randomized ephermal key according to the conditions of the setup. 
+    eph = ephermal_key(p)
+    r = pow(g,eph,p)
+    eph_inverse = pow(eph,-1,p-1)
+    s = ((m - d*r)* eph_inverse) % (p-1)
+    return r,s
+
+
+#Verification of the elgamal signature scheme.
+def verifyS(p, g, b, r, s, m):
+    if not r >= 1 and r <= p-1:
+        return False
+    t = (pow(b,r,p) * pow(r,s,p)) % p
+    th = pow(g,m,p)
+    return t == th
+
+# function for writing a list as lines to a file. 
+def write_file(output_file,params):
+    f = open(output_file, "w")
+    for i in range(len(params)):
+        f.write(params[i] + "\n")
+    f.close()
+
+# Reading the single line message from the input file. 
+def read_message(message):
+    m = open(message,'r')
+    ms = m.read().strip()
+    return int(ms)
+
+def ELgamal(parameters,private_key,message,output):
+    #Suppose during key generation we found:
+    p = 29
+    g = 2
+    d = 12
+
+    # The public key:
+    b = pow(g,d,p)
+
+    # reading the message, and signing it. 
+    m = read_message(message)
+    r,s = signMessage(p,g,d,m)
+    
+    # record message in message file
+    # write to parameters
+    write_file(parameters,[str(p),str(g),str(b)])
+    # write to private key
+    write_file(private_key,[str(d)])
+    #write to output
+    write_file(output,[str(r),str(s)])
+
+def main():
+    parameters_file = ''
+    private_key = ''
+    message = ''
+    output = ''
+    
+    if len(sys.argv) != 5:
+        print("Usage: " + sys.argv[0] + " PLAINTEXT_FILE KEY_FILE IV_FILE OUTPUT_FILE")
+    else:
+        parameters_file = sys.argv[1]
+        private_key = sys.argv[2]
+        message = sys.argv[3]
+        output = sys.argv[4]
+    ELgamal(parameters_file,private_key,message,output)
+        
+
+main()
